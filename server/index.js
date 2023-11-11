@@ -1,10 +1,12 @@
 import express from 'express';
 import mongoose from 'mongoose';
+import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import dotenv from 'dotenv';
 dotenv.config();
 
 import productRoute from './routes/product.route.js';
+import cartRoute from './routes/cart.route.js';
 
 const app = express();
 
@@ -21,10 +23,13 @@ mongoose.connection.on("disconnected", () => {
   console.log('mongodb disconnected');
 });
 
+// middlewares
+app.use(cors());
 app.use(cookieParser());
 app.use(express.json({ limit: '50mb' }));
 
 app.use('/api/v1/product', productRoute)
+app.use('/api/v1/cart', cartRoute)
 
 app.listen(8800, () => {
   connect();

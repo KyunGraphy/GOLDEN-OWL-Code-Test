@@ -1,10 +1,13 @@
 import { Grid } from '@mui/material'
+import { Header } from './Header'
+import { Content } from './Content'
 
 export const Cart = () => {
   return (
     <Grid
       sx={{
-        width: '400px',
+        margin: '40px',
+        width: '360px',
         height: '80vh',
         background: '#FFFFFF',
         borderRadius: '28px',
@@ -14,7 +17,8 @@ export const Cart = () => {
         flexDirection: 'column',
       }}
     >
-      cart
+      <Header />
+      <Content />
     </Grid>
   )
 }

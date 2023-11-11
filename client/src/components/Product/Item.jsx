@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import { Box, Grid, Typography } from '@mui/material'
+import { Box, Button, Grid, Typography } from '@mui/material'
 
 export const Item = ({ shoes }) => {
   const style = {
@@ -12,10 +12,9 @@ export const Item = ({ shoes }) => {
     alignItems: 'center',
   };
   const image = {
-    height: '100%',
+    height: '95%',
     transform: 'rotate(-30deg)',
   }
-  console.log(shoes)
 
   return (
     <Grid sx={{ margin: '40px 0' }}>
@@ -24,6 +23,18 @@ export const Item = ({ shoes }) => {
       </Box>
       <Typography variant="h6" sx={{ fontWeight: '600', padding: '1em 0' }}>{shoes.name}</Typography>
       <Typography sx={{ fontFamily: "'Rubik', sans-serif" }}>{shoes.description}</Typography>
+      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        <Typography variant="h6" sx={{ fontWeight: '600', padding: '1em 0' }}>${shoes.price}</Typography>
+        <Button sx={{
+          fontWeight: '600',
+          background: '#F6C90E',
+          color: '#303841',
+          height: 'fit-content',
+          '&:hover': {
+            background: '#F6C90E',
+          },
+        }}>ADD TO CART</Button>
+      </Box>
     </Grid>
   )
 }

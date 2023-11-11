@@ -6,12 +6,12 @@ function App() {
   return (
     <Grid sx={{
       width: '100vw',
-      height: '100vh',
+      minHeight: '100vh',
       display: 'flex',
       justifyContent: 'center',
       alignItems: 'center',
-      gap: '40px',
       background: '#F6C90E',
+      flexWrap: 'wrap',
     }}>
       <Product />
       <Cart />

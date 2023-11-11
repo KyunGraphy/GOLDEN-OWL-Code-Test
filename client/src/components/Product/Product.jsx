@@ -6,7 +6,9 @@ export const Product = () => {
   return (
     <Grid
       sx={{
-        width: '400px',
+        position: 'relative',
+        margin: '40px',
+        width: '360px',
         height: '80vh',
         background: '#FFFFFF',
         borderRadius: '28px',
@@ -15,7 +17,6 @@ export const Product = () => {
         display: 'flex',
         flexDirection: 'column',
         overflowY: 'auto',
-        position: 'relative',
       }}
     >
       <Header />

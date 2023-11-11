@@ -1,10 +1,14 @@
 /* eslint-disable react/prop-types */
+import axios from 'axios'
 import { Box, Grid, Typography } from '@mui/material'
 import MinusIcon from '../../assets/minus.png'
 import PlusIcon from '../../assets/plus.png'
 import TrashIcon from '../../assets/trash.png'
+import { useState } from 'react'
 
-export const Item = () => {
+// eslint-disable-next-line no-unused-vars
+export const Item = ({ item, index }) => {
+  const [quantity, setQuantity] = useState(item.cartData[index].quantity)
   const style = {
     height: 60,
     width: 60,
@@ -41,29 +45,55 @@ export const Item = () => {
     cursor: 'pointer',
   };
 
+  const handleDecrease = async () => {
+    try {
+      await axios.put(`http://localhost:8800/api/v1/cart/decrease/${item.cartData[index]._id}`);
+      setQuantity(prev => prev - 1)
+    } catch (err) {
+      console.log(err)
+    }
+  };
+
+  const handleIncrease = async () => {
+    try {
+      await axios.put(`http://localhost:8800/api/v1/cart/increase/${item.cartData[index]._id}`)
+      setQuantity(prev => prev + 1)
+    } catch (err) {
+      console.log(err)
+    }
+  };
+
+  const handleDelete = async () => {
+    try {
+      await axios.delete(`http://localhost:8800/api/v1/cart/${item.cartData[index]._id}`)
+    } catch (err) {
+      console.log(err)
+    }
+  };
+
   return (
-    <Grid sx={{ margin: '20px 0', display: 'flex', justifyContent: 'space-between' }}>
+    <Grid sx={{ margin: '20px 0', display: 'flex', justifyContent: 'space-between', gap: '2.5em' }}>
       <Box sx={style}>
         <img
           alt=''
-          src='https://s3-us-west-2.amazonaws.com/s.cdpn.io/1315882/air-zoom-pegasus-36-mens-running-shoe-wide-D24Mcz-removebg-preview.png'
+          src={item.productData[index].image}
           style={image}
         />
       </Box>
       <Box>
-        <Typography sx={{ fontWeight: '600' }}>Nike Air Zoom Pegasus 36</Typography>
-        <Typography variant='h6' sx={{ fontWeight: '800' }}>$108.97</Typography>
-        <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+        <Typography sx={{ fontWeight: '600' }}>{item.productData[index].name}</Typography>
+        <Typography variant='h6' sx={{ fontWeight: '800' }}>${item.productData[index].price}</Typography>
+        <Box sx={{ display: 'flex', justifyContent: 'space-between', margin: '1em 0' }}>
           <Box sx={{ display: 'flex', gap: '0.5em' }}>
-            <Box sx={IncDecButton}>
+            <Box sx={IncDecButton} onClick={handleDecrease}>
               <img src={MinusIcon} alt='' style={{ width: '100%', height: '100%' }} />
             </Box>
-            <Typography variant='h6' sx={{ fontWeight: '600' }}>1</Typography>
-            <Box sx={IncDecButton}>
+            <Typography variant='h6' sx={{ fontWeight: '600' }}>{quantity}</Typography>
+            <Box sx={IncDecButton} onClick={handleIncrease}>
               <img src={PlusIcon} alt='' style={{ width: '100%', height: '100%' }} />
             </Box>
           </Box>
-          <Box sx={TrashButton}>
+          <Box sx={TrashButton} onClick={handleDelete}>
             <img src={TrashIcon} alt='' style={{ width: '100%', height: '100%' }} />
           </Box>
         </Box>

@@ -1,5 +1,8 @@
 /* eslint-disable react/prop-types */
 import { Box, Button, Grid, Typography } from '@mui/material'
+import axios from 'axios';
+import tickIcon from '../../assets/check.png'
+import useFetch from '../../hooks/useFetch';
 
 export const Item = ({ shoes }) => {
   const style = {
@@ -16,6 +19,21 @@ export const Item = ({ shoes }) => {
     transform: 'rotate(-30deg)',
   }
 
+  const { data: cart } = useFetch('http://localhost:8800/api/v1/cart/')
+
+  const handleAddCartItem = async () => {
+    try {
+      await axios.post('http://localhost:8800/api/v1/cart', {
+        productId: shoes._id,
+        quantity: 1,
+      })
+      location.reload();
+    } catch (err) {
+      console.log(err)
+    }
+  };
+  const isExistedItem = (cart[0]?.cartData.some(item => item.productId === shoes._id))
+
   return (
     <Grid sx={{ margin: '40px 0' }}>
       <Box sx={style}>
@@ -25,15 +43,32 @@ export const Item = ({ shoes }) => {
       <Typography sx={{ fontFamily: "'Rubik', sans-serif" }}>{shoes.description}</Typography>
       <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <Typography variant="h6" sx={{ fontWeight: '600', padding: '1em 0' }}>${shoes.price}</Typography>
-        <Button sx={{
-          fontWeight: '600',
-          background: '#F6C90E',
-          color: '#303841',
-          height: 'fit-content',
-          '&:hover': {
+        {!isExistedItem ? (
+          <Button
+            sx={{
+              fontWeight: '600',
+              background: '#F6C90E',
+              color: '#303841',
+              height: 'fit-content',
+              '&:hover': {
+                background: '#F6C90E',
+              },
+            }}
+            onClick={handleAddCartItem}
+          >ADD TO CART</Button>
+        ) : (
+          <Box sx={{
+            height: '40px',
+            width: '40px',
             background: '#F6C90E',
-          },
-        }}>ADD TO CART</Button>
+            borderRadius: '50%',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}>
+            <img alt='' src={tickIcon} style={{ width: '80%' }} />
+          </Box>
+        )}
       </Box>
     </Grid>
   )

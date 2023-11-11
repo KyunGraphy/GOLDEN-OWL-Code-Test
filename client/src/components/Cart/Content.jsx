@@ -1,14 +1,12 @@
+/* eslint-disable react/prop-types */
 import { Grid } from '@mui/material'
 import { Item } from './Item'
 
-export const Content = () => {
+// eslint-disable-next-line react/prop-types, no-unused-vars
+export const Content = (props) => {
   return (
     <Grid sx={{ flex: 1, overflowY: 'auto' }}>
-      <Item />
-      <Item />
-      <Item />
-      <Item />
-      <Item />
+      {props.cart.map((item, index) => <Item key={index} item={item} index={index} />)}
     </Grid>
   )
 }

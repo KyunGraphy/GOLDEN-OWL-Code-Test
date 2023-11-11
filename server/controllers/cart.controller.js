@@ -7,10 +7,14 @@ export const getCartItem = async (req, res) => {
     cartData.map(
       item => Product.findById(item.productId))
   )
-  res.status(200).json({
-    cartData: cartData,
-    productData: productData,
-  });
+  let result = [];
+  for (let i = 0; i < productData.length; i++) {
+    result.push({
+      cartData: cartData,
+      productData: productData,
+    })
+  }
+  res.status(200).json(result);
 };
 
 export const addCartItem = async (req, res) => {

@@ -11,10 +11,10 @@ export const Content = () => {
       {loading ? (
         <Box>Please wait...</Box>
       ) : (
-        <Box>
+        <Box sx={{ overflowX: 'hidden' }}>
           {product.map(shoes => (
             <Item
-              key={shoes.id}
+              key={shoes._id}
               shoes={shoes}
             />
           ))}
